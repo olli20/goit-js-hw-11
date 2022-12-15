@@ -1,1 +1,0 @@
-{"mappings":"AACgBA,SAASC,cAAc","sources":["src/js/index.js"],"sourcesContent":["const refs = {\n    searchForm: document.querySelector('.search-form'),\n};\n\n\n\n\n\n\n\n"],"names":["document","querySelector"],"version":3,"file":"index.0bc5d403.js.map"}
