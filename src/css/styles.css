@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    padding-top: 90px;
+    padding-bottom: 50px;
+}
+.search-container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    width: 100%;
+    min-height: 75px;
+    background-color: rgb(66, 116, 255);
+}
+
+.gallery {
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.photo-link {
+    width: calc((100% - 30px) / 3);
+    border: 1px solid;
+}
+
+.photo-card img {
+    display: block;
+    width: 100%;
+}
+.info {
+    display: flex;
+    gap: 10px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
