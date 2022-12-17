@@ -5,7 +5,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import ImagesApiService from './images-service';
 
 const refs = {
-    searchForm: document.querySelector('.search-form'),
+    searchForm: document.querySelector('#search-form'),
     imagesContainer: document.querySelector('.gallery'),
     loadMoreBtn: document.querySelector('.load-more'),
 };
@@ -24,16 +24,15 @@ const onSubmit = (event) => {
     imagesApiService.resetPage();
     imagesApiService.fetchImages()
         .then((response) => {
-            if (response.length === 0) {
-                Notify.failure('Oops, there is no country with that name');
-                return;
+          if (response.length === 0) {
+            Notify.failure('Oops, there is no country with that name');
+            return;
           }
-          
-          //перевірити величину відповіді
 
           // вставити зображення
           insertImages(response);
           lightbox.refresh();
+          refs.loadMoreBtn.classList.remove('is-hidden');
           Notify.info(`Hooray! We found ${imagesApiService.totalHits} images.`);
          })
         .catch(error => console.log('some error'));
@@ -56,7 +55,9 @@ const clearImagesContainer = () => {
 const imageTpl = ( {webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => `
 <a class="photo-link" href="${largeImageURL}">
   <div class="photo-card">
-      <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+    <div class="photo-thumb">
+      <img class="photo-img" src="${webformatURL}" alt="${tags}" loading="lazy" />
+    </div>
     <div class="info">
       <p class="info-item">
         <b>Likes</b>
