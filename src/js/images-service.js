@@ -1,8 +1,10 @@
+const axios = require('axios');
+
 const API_KEY = '32051707-22cc9bd81885c5eb5ea8ac825';
 const BASE_URL = 'https://pixabay.com/api';
 const options = '&image_type=photo&orientation=horizontal&safesearch=true';
 
-// 
+
 export default class ImagesApiService {
     constructor() {
         this.searchQuery = '';
@@ -37,7 +39,7 @@ export default class ImagesApiService {
             this.hitsLeft = this.totalHits - this.perPage;
         } else if (this.page > 1) {
             this.hitsLeft -= this.perPage;
-        }
+        };
     }
 
     isEnoughImagesCheck() {

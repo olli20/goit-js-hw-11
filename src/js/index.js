@@ -39,29 +39,50 @@ const onSubmit = (event) => {
 
           if (imagesApiService.isEnoughImages) {
             showLoadMoreBtn();
-          }
+          };
           
           Notify.info(`Hooray! We found ${imagesApiService.totalHits} images.`);
          })
-        .catch(onError);
+    .catch(onError);
 };
 
-const onLoadMore = () => {
-    imagesApiService.fetchImages()
-      .then((response) => {
-        hideLoadMoreBtn();
+async function onLoadMore() {
+  hideLoadMoreBtn();
+  const response = await imagesApiService.fetchImages();
+  try {
+    const data = await response;
+    insertImages(data);
 
-        insertImages(response);
-        lightbox.refresh();
-
-        if (imagesApiService.isEnoughImages) {
-          showLoadMoreBtn();
-        } else {
-          Notify.info("We're sorry, but you've reached the end of search results.");
-        };
-      })
-      .catch(onError);
+    lightbox.refresh();
+    
+    if (imagesApiService.isEnoughImages) {
+        showLoadMoreBtn();
+      } else {
+        Notify.info("We're sorry, but you've reached the end of search results.");
+    };
+    
+  } catch (error) {
+    onError();
+    return error;
+  }
 };
+
+// const onLoadMore = () => {
+//     imagesApiService.fetchImages()
+//       .then((response) => {
+//         hideLoadMoreBtn();
+
+//         insertImages(response);
+//         lightbox.refresh();
+
+//         if (imagesApiService.isEnoughImages) {
+//           showLoadMoreBtn();
+//         } else {
+//           Notify.info("We're sorry, but you've reached the end of search results.");
+//         };
+//       })
+//       .catch(onError);
+// };
 
 const clearImagesContainer = () => {
     refs.imagesContainer.innerHTML = '';
@@ -94,7 +115,6 @@ const imageTpl = ({ webformatURL, largeImageURL, tags, likes, views, comments, d
   </div>
 </a>
 `;
-
 const insertImages = (response) => {
     let markup = '';
     for (let i = 0; i < response.length; i += 1) {
