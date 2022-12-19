@@ -1,4 +1,4 @@
-.search-container {
+.search-header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,8 +7,10 @@
     left: 0px;
 
     width: 100%;
-    min-height: 75px;
-    background-color: rgb(66, 116, 255);
+    min-height: 63px;
+    background-color: $color-accent;
+
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .search-form {
@@ -21,13 +23,18 @@
     display: block;
     margin: 0;
     border-radius: 5px;
-    height: 40px;
+    height: 38px;
     min-width: 350px;
     padding: 10px;
-    padding-right: 45px;
+    padding-right: 50px;
 
     border: none;
     outline: none;
+
+    &:focus {
+        outline-color: $color-shade-accent;
+        outline-style: solid;
+    }
 }
 
 .search-form button {
@@ -39,8 +46,8 @@
     justify-content: center;
     align-items: center;
 
-    height: 40px;
-    width: 40px;
+    height: 38px;
+    width: 38px;
 
     border-radius: 0px 5px 5px 0px;
     background-color: rgb(224, 224, 224);

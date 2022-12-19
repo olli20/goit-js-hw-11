@@ -5,7 +5,7 @@ const BASE_URL = 'https://pixabay.com/api';
 export default class ImagesApiService {
     constructor() {
         this.searchQuery = '';
-        this.perPage = 10;
+        this.perPage = 20;
         this.page = 1;
         this.totalHits = null;
         // this.isFirstRequest = true;
@@ -15,7 +15,7 @@ export default class ImagesApiService {
         console.log(this.searchQuery);
 
         const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}
-        &lang=en&image_type=photo&orientation=horizontal&per_page=10&page=${this.page}`;
+        &lang=en&image_type=photo&orientation=horizontal&per_page=${this.perPage}&page=${this.page}`;
         return fetch(url)
             .then(response => response.json())
             .then((response) => {

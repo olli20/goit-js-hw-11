@@ -11,7 +11,7 @@ const refs = {
 };
 
 const imagesApiService = new ImagesApiService;
-var lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: '250ms', });
+var lightbox = new SimpleLightbox('.gallery a');
 
 const onSubmit = (event) => {
     event.preventDefault();

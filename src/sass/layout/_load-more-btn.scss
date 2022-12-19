@@ -1,0 +1,25 @@
+.load-more {
+    height: 38px;
+    min-width: 150px;
+    margin-bottom: 30px;
+
+    padding: 10px 15px;
+    background-color: $color-accent;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 5px;
+
+    outline: none;
+    border-width: 0;
+
+    transition: background-color 250ms $timing-function;
+
+    &:hover, 
+    &:focus {
+        background-color: $color-shade-accent;
+    }
+}
+
+.is-hidden {
+    display: none;
+}
