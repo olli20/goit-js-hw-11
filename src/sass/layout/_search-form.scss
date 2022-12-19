@@ -22,19 +22,34 @@
     margin: 0;
     border-radius: 5px;
     height: 40px;
-    min-width: 300px;
+    min-width: 350px;
     padding: 10px;
     padding-right: 45px;
+
+    border: none;
+    outline: none;
 }
 
 .search-form button {
     position: absolute;
     top: 0;
     right: 0;
-    display: block;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     height: 40px;
     width: 40px;
+
     border-radius: 0px 5px 5px 0px;
-    background-color: rgb(192, 192, 192);
+    background-color: rgb(224, 224, 224);
     font-size: 18px;
+
+    border: none;
+    outline: none;
+}
+
+.search-icon {
+    fill: rgb(41, 41, 41);
 }

@@ -15,4 +15,8 @@
         width: $desktop;
     }
 
+    @media screen and (min-width: $large-desktop) {
+        width: $large-desktop;
+    }
+
 }
