@@ -8,7 +8,7 @@ const options = '&image_type=photo&orientation=horizontal&safesearch=true';
 export default class ImagesApiService {
     constructor() {
         this.searchQuery = '';
-        this.perPage = 24;
+        this.perPage = 40;
         this.page = 1;
         this.totalHits = null;
         this.hitsLeft = null;
@@ -19,6 +19,7 @@ export default class ImagesApiService {
 
         const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}${options}
         &per_page=${this.perPage}&page=${this.page}`;
+
         return axios.get(url)
             .then((response) => {
                 this.hitsUpdate(response.data);
