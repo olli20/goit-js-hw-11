@@ -14,7 +14,6 @@ export default class ImagesApiService {
     }
 
     fetchImages() {
-        console.log(this.searchQuery);
 
         const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}${options}
         &per_page=${this.perPage}&page=${this.page}`;
@@ -24,6 +23,8 @@ export default class ImagesApiService {
                 
                 this.hitsUpdate(response);
 
+                this.isEnoughImagesCheck();
+
                 this.incrementPage();
 
                 return response.hits;
@@ -32,11 +33,19 @@ export default class ImagesApiService {
 
     hitsUpdate(response) {
         if (this.page === 1) {
-                this.totalHits = Number(response.totalHits);
-                this.hitsLeft = this.totalHits - this.perPage;
-            } else if (this.page > 1) {
-                this.hitsLeft -= this.perPage;
-            }   
+            this.totalHits = Number(response.totalHits);
+            this.hitsLeft = this.totalHits - this.perPage;
+        } else if (this.page > 1) {
+            this.hitsLeft -= this.perPage;
+        }
+    }
+
+    isEnoughImagesCheck() {
+        if (this.hitsLeft > 0) {
+            this.isEnoughImages = true;
+        } else {
+            this.isEnoughImages = false;
+        };
     }
 
     incrementPage() {
@@ -45,6 +54,10 @@ export default class ImagesApiService {
 
     resetPage() {
         this.page = 1;
+    }
+
+    resetEnoughImages() {
+        this.isEnoughImages = false;
     }
 
     get query() {

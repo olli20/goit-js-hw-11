@@ -15,28 +15,31 @@ var lightbox = new SimpleLightbox('.gallery a');
 
 const onSubmit = (event) => {
     event.preventDefault();
+    hideLoadMoreBtn();
     clearImagesContainer();
   
     const { value } = event.currentTarget.elements.searchQuery;
   
     if (value.trim() === "") {
-      return;
-    }
-  
+        Notify.failure("Please, enter your search request.");
+        return;
+      };
   
     imagesApiService.searchQuery = value.trim();
     imagesApiService.resetPage();
     imagesApiService.fetchImages()
         .then((response) => {
           if (response.length === 0) {
-            Notify.failure('Oops, there is no country with that name');
+            Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             return;
-          }
+          };
 
           insertImages(response);
           lightbox.refresh();
-          showLoadMoreBtn();
-          console.log('Залишилось: ', imagesApiService.hitsLeft);
+
+          if (imagesApiService.isEnoughImages) {
+            showLoadMoreBtn();
+          }
           
           Notify.info(`Hooray! We found ${imagesApiService.totalHits} images.`);
          })
@@ -47,10 +50,15 @@ const onLoadMore = () => {
     imagesApiService.fetchImages()
       .then((response) => {
         hideLoadMoreBtn();
+
         insertImages(response);
         lightbox.refresh();
-        console.log('Залишилось: ', imagesApiService.hitsLeft);
-        showLoadMoreBtn();
+
+        if (imagesApiService.isEnoughImages) {
+          showLoadMoreBtn();
+        } else {
+          Notify.info("We're sorry, but you've reached the end of search results.");
+        };
       })
       .catch(onError);
 };
@@ -59,7 +67,7 @@ const clearImagesContainer = () => {
     refs.imagesContainer.innerHTML = '';
 };
 
-const imageTpl = ( {webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => `
+const imageTpl = ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
 <a class="photo-link" href="${largeImageURL}">
   <div class="photo-card">
     <div class="photo-thumb">
@@ -87,7 +95,6 @@ const imageTpl = ( {webformatURL, largeImageURL, tags, likes, views, comments, d
 </a>
 `;
 
-
 const insertImages = (response) => {
     let markup = '';
     for (let i = 0; i < response.length; i += 1) {
@@ -105,7 +112,7 @@ const hideLoadMoreBtn = () => {
 }
 
 const onError = () => {
-  console.log('some error');
+  Notify.failure("Something went wrong! Please, check your Internet connection or try later.");
 }
 
 refs.searchForm.addEventListener('submit', onSubmit);
