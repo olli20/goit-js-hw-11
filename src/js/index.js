@@ -17,9 +17,13 @@ const onSubmit = (event) => {
     event.preventDefault();
     clearImagesContainer();
   
-    //якщо більше одного слова, поставити посередині плюсик
     const { value } = event.currentTarget.elements.searchQuery;
-
+  
+    if (value.trim() === "") {
+      return;
+    }
+  
+  
     imagesApiService.searchQuery = value.trim();
     imagesApiService.resetPage();
     imagesApiService.fetchImages()
@@ -29,23 +33,26 @@ const onSubmit = (event) => {
             return;
           }
 
-          // вставити зображення
           insertImages(response);
           lightbox.refresh();
-          refs.loadMoreBtn.classList.remove('is-hidden');
+          showLoadMoreBtn();
+          console.log('Залишилось: ', imagesApiService.hitsLeft);
+          
           Notify.info(`Hooray! We found ${imagesApiService.totalHits} images.`);
          })
-        .catch(error => console.log('some error'));
+        .catch(onError);
 };
 
 const onLoadMore = () => {
     imagesApiService.fetchImages()
       .then((response) => {
+        hideLoadMoreBtn();
         insertImages(response);
         lightbox.refresh();
-        // var lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: '250ms', });
+        console.log('Залишилось: ', imagesApiService.hitsLeft);
+        showLoadMoreBtn();
       })
-      .catch(error => console.log('some error'));
+      .catch(onError);
 };
 
 const clearImagesContainer = () => {
@@ -88,6 +95,18 @@ const insertImages = (response) => {
     };
   refs.imagesContainer.insertAdjacentHTML('beforeend', markup);
 };
+
+const showLoadMoreBtn = () => {
+  refs.loadMoreBtn.classList.remove('is-hidden');
+}
+
+const hideLoadMoreBtn = () => {
+  refs.loadMoreBtn.classList.add('is-hidden');
+}
+
+const onError = () => {
+  console.log('some error');
+}
 
 refs.searchForm.addEventListener('submit', onSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);

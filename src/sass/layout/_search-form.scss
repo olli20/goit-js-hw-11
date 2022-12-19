@@ -50,13 +50,20 @@
     width: 38px;
 
     border-radius: 0px 5px 5px 0px;
-    background-color: rgb(224, 224, 224);
+    background-color: rgb(228, 228, 228);
     font-size: 18px;
 
     border: none;
     outline: none;
+
+    transition: box-background-color 250ms $timing-function;
+    
+    &:hover,
+    &:focus {
+        background-color: rgb(215, 215, 215);
+    }
 }
 
 .search-icon {
-    fill: rgb(41, 41, 41);
+    fill: rgb(64, 64, 64);
 }
