@@ -1,14 +1,11 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import ImagesApiService from './images-service';
 
-const refs = {
-    searchForm: document.querySelector('#search-form'),
-    imagesContainer: document.querySelector('.gallery'),
-    loadMoreBtn: document.querySelector('.load-more'),
-};
+import ImagesApiService from './images-service';
+import getRefs from './get-refs';
+
+const refs = getRefs();
 
 const imagesApiService = new ImagesApiService;
 var lightbox = new SimpleLightbox('.gallery a');
@@ -25,8 +22,9 @@ const onSubmit = (event) => {
         return;
       };
   
-    imagesApiService.searchQuery = value.trim();
+    imagesApiService.query(value.trim());
     imagesApiService.resetPage();
+  
     imagesApiService.fetchImages()
         .then((response) => {
           if (response.length === 0) {
@@ -41,13 +39,14 @@ const onSubmit = (event) => {
             showLoadMoreBtn();
           };
           
-          Notify.info(`Hooray! We found ${imagesApiService.totalHits} images.`);
+          Notify.success(`Hooray! We found ${imagesApiService.totalHits} images.`);
          })
     .catch(onError);
 };
 
-async function onLoadMore() {
+const onLoadMore = async () => {
   hideLoadMoreBtn();
+
   const response = await imagesApiService.fetchImages();
   try {
     const data = await response;
@@ -66,23 +65,6 @@ async function onLoadMore() {
     return error;
   }
 };
-
-// const onLoadMore = () => {
-//     imagesApiService.fetchImages()
-//       .then((response) => {
-//         hideLoadMoreBtn();
-
-//         insertImages(response);
-//         lightbox.refresh();
-
-//         if (imagesApiService.isEnoughImages) {
-//           showLoadMoreBtn();
-//         } else {
-//           Notify.info("We're sorry, but you've reached the end of search results.");
-//         };
-//       })
-//       .catch(onError);
-// };
 
 const clearImagesContainer = () => {
     refs.imagesContainer.innerHTML = '';
@@ -115,6 +97,7 @@ const imageTpl = ({ webformatURL, largeImageURL, tags, likes, views, comments, d
   </div>
 </a>
 `;
+
 const insertImages = (response) => {
     let markup = '';
     for (let i = 0; i < response.length; i += 1) {
