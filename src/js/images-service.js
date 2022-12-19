@@ -60,13 +60,4 @@ export default class ImagesApiService {
     resetEnoughImages() {
         this.isEnoughImages = false;
     }
-
-    get query() {
-        return this.searchQuery;
-    }
-
-    set query(newQuery) {
-        this.searchQuery = newQuery;
-    }
-
 };

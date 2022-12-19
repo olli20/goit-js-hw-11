@@ -22,7 +22,7 @@ const onSubmit = (event) => {
         return;
       };
   
-    imagesApiService.query(value.trim());
+    imagesApiService.searchQuery = value.trim();
     imagesApiService.resetPage();
   
     imagesApiService.fetchImages()
