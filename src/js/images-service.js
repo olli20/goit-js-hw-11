@@ -4,11 +4,10 @@ const API_KEY = '32051707-22cc9bd81885c5eb5ea8ac825';
 const BASE_URL = 'https://pixabay.com/api';
 const options = '&image_type=photo&orientation=horizontal&safesearch=true';
 
-
 export default class ImagesApiService {
     constructor() {
         this.searchQuery = '';
-        this.perPage = 40;
+        this.perPage = 24;
         this.page = 1;
         this.totalHits = null;
         this.hitsLeft = null;
